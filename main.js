@@ -16,6 +16,7 @@ function addNewItem () {
     let newText = document.createTextNode(textInput);
     let newButton = document.createElement('input');
     newButton.setAttribute('type', 'button');
+    newButton.addEventListener('click', removeItem);
 
     newSpan.appendChild(newText);
     newDiv.appendChild(newCheckbox);
@@ -37,6 +38,13 @@ function addNewItem () {
     // And we clear the input field
     textInputEl.value =""
 
+}
+
+function removeItem(event) {
+    console.log("Removing Item");
+
+    console.log(event.target.parentNode.parentNode.innerHTML);
+    event.target.parentNode.parentNode.remove();
 }
 
 function main () {

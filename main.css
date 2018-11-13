@@ -1,0 +1,18 @@
+li {
+    list-style-type: none;
+}
+
+.editable-item {
+    border: 3px solid blue;
+}
+
+.list-item {
+    width: 20em;
+    max-width: 20em;
+    /* display: inline-block;
+    width: 20em;
+    height: 1em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; */
+}

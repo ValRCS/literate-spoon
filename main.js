@@ -13,7 +13,10 @@ function addNewItem () {
     let newCheckbox = document.createElement('input');
     newCheckbox.setAttribute('type', 'checkbox');
     let newSpan = document.createElement('span');
+    newSpan.classList.add("d-inline-block","text-truncate","list-item");
     let newText = document.createTextNode(textInput);
+    newSpan.addEventListener('mouseenter', openEditItemWindow);
+    newSpan.addEventListener('mouseleave', closeEditItemWindow);
     let newButton = document.createElement('input');
     newButton.setAttribute('type', 'button');
     newButton.addEventListener('click', removeItem);
@@ -24,16 +27,6 @@ function addNewItem () {
     newDiv.appendChild(newButton);
     newItem.appendChild(newDiv);
     myTodoList.appendChild(newItem);
-
-    // newItem.innerHTML=`
-    //         <div>
-    //             <input type="checkbox">
-    //             <span>${textInput}</span>
-    //             <input type="button">
-    //         </div>
-    // `;
-
-    
 
     // And we clear the input field
     textInputEl.value =""
@@ -47,8 +40,22 @@ function removeItem(event) {
     event.target.parentNode.parentNode.remove();
 }
 
+function openEditItemWindow(event) {
+    //
+    console.log("openEditItemWindow");
+    event.target.setAttribute("contentEditable", "true");
+    event.target.classList.add("editable-item");
+}
+
+
+function closeEditItemWindow(event) {
+    console.log("closeEditItemWindow");
+    event.target.setAttribute("contentEditable", "false");
+    event.target.classList.remove("editable-item");
+}
+
 function main () {
-    console.log("Running Main");
+    console.log("Running 'my little lamb' Main");
     // document.getElementById("new-item-button").onclick = addNewItem;
     document.getElementById("new-item-button").addEventListener('click', addNewItem);
     // document.getElementById("new-item-button").addEventListener('click', () => {alert("Hello")});

@@ -1,9 +1,16 @@
-function addNewItem() {
-    console.log("Adding New Items");
-    // Getting Text to be used for new item
-    let textInputEl = document.getElementById("new-item-text");
-    let textInput = textInputEl.value;
+const CONFIG = {
+    "MAXITEMS" : 10,
+    "DATASRC" : 'https://jsonplaceholder.typicode.com/todos'
+};
 
+function addNewItemLocally() {
+    addNewItem(document.getElementById("new-item-text").value);
+    // And we clear the input field
+    document.getElementById("new-item-text").value =""
+}
+
+function addNewItem(textInput) {
+    console.log("Adding New Items");
     console.log("Going to add TODO with following text:"+ textInput);
 
     let myTodoList = document.getElementById("main-todo-list");
@@ -29,10 +36,6 @@ function addNewItem() {
     newDiv.appendChild(newButton);
     newItem.appendChild(newDiv);
     myTodoList.appendChild(newItem);
-
-    // And we clear the input field
-    textInputEl.value =""
-
 }
 
 function removeItem(event) {
@@ -60,7 +63,7 @@ function handleKeyboardInput(event) {
     if (event.key === "Enter") { 
         console.log("Pressed enter");
         event.preventDefault();
-        addNewItem();
+        addNewItemLocally();
     }
     console.log("Handling keyboard event");
     console.log("Pressed key:"+event.key);
@@ -81,18 +84,32 @@ function toggleItemsDone(event) {
     spanArray[0].style["text-decoration"] = event.target.checked ? "line-through" : "none";
 }
 
+function processTasks(mydata) {
+    console.log(mydata);
+    for (let i=0; i < CONFIG.MAXITEMS; i++) {
+        addNewItem(mydata[i].title);
+    }
+}
+
+function getInitialTasks() {
+    fetch(CONFIG.DATASRC).then(response => response.json()).then(mycrazydata => processTasks(mycrazydata))
+}
+
 function init() {
     let myInput = document.getElementById('new-item-text');
     //ADD code here
     myInput.addEventListener('keydown', handleKeyboardInput);
 
-    document.getElementById("new-item-button").addEventListener('click', addNewItem);
+    document.getElementById("new-item-button").addEventListener('click', addNewItemLocally);
+    getInitialTasks();
 }
 
 function main () {
     console.log("Running 'my little lamb' Main");
     //add Init Code
     init();
+    //runmainloop();
+    //cleanup();
 }
 
 main();

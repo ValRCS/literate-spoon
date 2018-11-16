@@ -1,3 +1,5 @@
+// import { hello } from './util.js';
+
 const CONFIG = {
     "MAXITEMS" : 10,
     "DATASRC" : 'https://jsonplaceholder.typicode.com/todos'
@@ -46,15 +48,14 @@ function removeItem(event) {
 }
 
 function openEditItemWindow(event) {
-    //
-    console.log("openEditItemWindow");
+    //console.log("openEditItemWindow");
     event.target.setAttribute("contentEditable", "true");
     event.target.classList.add("editable-item");
 }
 
 
 function closeEditItemWindow(event) {
-    console.log("closeEditItemWindow");
+    // console.log("closeEditItemWindow");
     event.target.setAttribute("contentEditable", "false");
     event.target.classList.remove("editable-item");
 }
@@ -102,6 +103,7 @@ function init() {
 
     document.getElementById("new-item-button").addEventListener('click', addNewItemLocally);
     getInitialTasks();
+    hello();
 }
 
 function main () {

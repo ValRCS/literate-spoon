@@ -5,15 +5,33 @@ const CONFIG = {
     "DATASRC" : 'https://jsonplaceholder.typicode.com/todos'
 };
 
+let tasks = [
+    {
+        title : "Buy Bread",
+        isDone : false,
+        created : "16/11/2018"
+    },
+    {
+        title : "Buy Milk",
+        isDone : true,
+        created : "16/11/2018"
+    }
+]
+
+
 function addNewItemLocally() {
-    addNewItem(document.getElementById("new-item-text").value);
+    let task = {
+        title : document.getElementById("new-item-text").value,
+        isDone : false
+    }
+    addNewItem(task);
     // And we clear the input field
-    document.getElementById("new-item-text").value =""
+    document.getElementById("new-item-text").value ="";
 }
 
-function addNewItem(textInput) {
+function addNewItem(task) {
     console.log("Adding New Items");
-    console.log("Going to add TODO with following text:"+ textInput);
+    console.log("Going to add TODO with following text:"+ task.title);
 
     let myTodoList = document.getElementById("main-todo-list");
 
@@ -25,7 +43,7 @@ function addNewItem(textInput) {
     newCheckbox.addEventListener('click', toggleItemsDone);
     let newSpan = document.createElement('span');
     newSpan.classList.add("d-inline-block","text-truncate","list-item");
-    let newText = document.createTextNode(textInput);
+    let newText = document.createTextNode(task.title);
     newSpan.addEventListener('mouseenter', openEditItemWindow);
     newSpan.addEventListener('mouseleave', closeEditItemWindow);
     let newButton = document.createElement('input');
@@ -37,6 +55,17 @@ function addNewItem(textInput) {
     newDiv.appendChild(newSpan);
     newDiv.appendChild(newButton);
     newItem.appendChild(newDiv);
+
+    // LONG way
+     if (task.isDone) {
+        newSpan.style["text-decoration"] = "line-through";
+    } else {
+        newSpan.style["text-decoration"] = "none";
+    }
+
+    newSpan.style["text-decoration"] = task.isDone ? "line-through" : "none";
+    newCheckbox.checked = task.isDone;
+
     myTodoList.appendChild(newItem);
 }
 
@@ -85,6 +114,10 @@ function toggleItemsDone(event) {
     spanArray[0].style["text-decoration"] = event.target.checked ? "line-through" : "none";
 }
 
+function renderTasks(tlist) {
+    tlist.forEach(el => addNewItem(el));
+}
+
 function processTasks(mydata) {
     console.log(mydata);
     for (let i=0; i < CONFIG.MAXITEMS; i++) {
@@ -93,7 +126,8 @@ function processTasks(mydata) {
 }
 
 function getInitialTasks() {
-    fetch(CONFIG.DATASRC).then(response => response.json()).then(mycrazydata => processTasks(mycrazydata))
+    // fetch(CONFIG.DATASRC).then(response => response.json()).then(mycrazydata => processTasks(mycrazydata))
+    renderTasks(tasks);
 }
 
 function init() {
@@ -103,7 +137,6 @@ function init() {
 
     document.getElementById("new-item-button").addEventListener('click', addNewItemLocally);
     getInitialTasks();
-    hello();
 }
 
 function main () {

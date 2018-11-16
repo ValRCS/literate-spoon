@@ -2,7 +2,7 @@
 
 const CONFIG = {
     "MAXITEMS" : 10,
-    "DATASRC" : 'https://jsonplaceholder.typicode.com/todos'
+    "DATASRC" : 'https://lit-spoon.firebaseio.com/tasks.json'
 };
 
 let tasks = [
@@ -25,6 +25,7 @@ function addNewItemLocally() {
         isDone : false
     }
     addNewItem(task);
+    postData(CONFIG.DATASRC, task);
     // And we clear the input field
     document.getElementById("new-item-text").value ="";
 }
@@ -118,16 +119,18 @@ function renderTasks(tlist) {
     tlist.forEach(el => addNewItem(el));
 }
 
-function processTasks(mydata) {
-    console.log(mydata);
-    for (let i=0; i < CONFIG.MAXITEMS; i++) {
-        addNewItem(mydata[i].title);
+function processTasks(tasks) {
+
+    console.log(tasks);
+    for (task in tasks) {
+        console.log(tasks[task]);
+        addNewItem(tasks[task]);
     }
 }
 
 function getInitialTasks() {
-    // fetch(CONFIG.DATASRC).then(response => response.json()).then(mycrazydata => processTasks(mycrazydata))
-    renderTasks(tasks);
+    fetch(CONFIG.DATASRC).then(response => response.json()).then(mycrazydata => processTasks(mycrazydata))
+    // renderTasks(tasks);
 }
 
 function init() {
